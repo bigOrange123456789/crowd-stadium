@@ -7,7 +7,7 @@ class LODController {
         this.frustum = new THREE.Frustum();
         // const gpu = new GPU();
         this.planeIndecies = [ 0, 1, 2, 3 ]; // 用哪些面进行视锥剔除 0:右 1:左 2:下 3:上 4:远 5:近
-        this.lodLevels = [300, 1000,111100] // LOD分为三等, 此数组数字为距离平方
+        this.lodLevels = [300, 5000,111100] // LOD分为三等, 此数组数字为距离平方
         var scope=this
         window.update_lod_distance=(number)=>{
             scope.lodLevels[2]=number

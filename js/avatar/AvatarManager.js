@@ -89,7 +89,7 @@ class AvatarManager {
           lowModelPath: "assets/crowd/model/male_low.glb",
           lowTexturePath: "assets/crowd/texture/maleTextureLow.webp",
 
-          superlowModelPath: "assets/crowd/model/male_low.glb",
+          superlowModelPath: "assets/crowd/model/male_super_low.glb",
           superlowTexturePath: "assets/crowd/texture/maleTextureLow.webp",
         },
   
@@ -105,7 +105,7 @@ class AvatarManager {
           lowModelPath: "assets/crowd/model/female_low.glb",
           lowTexturePath: "assets/crowd/texture/femaleTextureLow.webp",
 
-          superlowModelPath: "assets/crowd/model/female_low.glb",
+          superlowModelPath: "assets/crowd/model/female_super_low.glb",
           superlowTexturePath: "assets/crowd/texture/femaleTextureLow.webp",
         },
       };
@@ -497,7 +497,22 @@ class AvatarManager {
       instanceGroup.setTexture(param.index, param.textureType);
       instanceGroup.setRotation(param.index, rotation); // 使Avatar面向前方
       instanceGroup.setPosition(param.index, param.position);
-      instanceGroup.setScale(param.index, param.scale);
+      if(param.LOD==2){
+        instanceGroup.setScale(param.index, [
+          1.2*param.scale[0],
+          1.2*param.scale[1],
+          1.2*param.scale[2]
+        ]);
+      }else if(param.LOD===3){
+        instanceGroup.setScale(param.index, [
+          1.8*param.scale[0],
+          1.8*param.scale[1],
+          1.8*param.scale[2]
+        ]);
+      }else{
+        instanceGroup.setScale(param.index, param.scale);
+      }
+      
       instanceGroup.setBodyScale(param.index, param.bodyScale);
     }
 
