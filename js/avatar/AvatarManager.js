@@ -766,13 +766,19 @@ class AvatarManager {
       maleInstanceGroup.updateTexture("assets/crowd/texture/maleTextureHigh.webp",()=>{
         // textureData.flipY = false;
         // scope.manager.instanceGroup.female[1].uniforms.textureData={ value: textureData };
+        scope.manager.instanceGroup.male[3].uniforms.textureData=
         scope.manager.instanceGroup.male[2].uniforms.textureData=
         scope.manager.instanceGroup.male[1].uniforms.textureData=
         scope.manager.instanceGroup.male[0].uniforms.textureData;
         femaleInstanceGroup.updateTexture("assets/crowd/texture/femaleTextureHigh.webp",()=>{
+          scope.manager.instanceGroup.female[3].uniforms.textureData=
           scope.manager.instanceGroup.female[2].uniforms.textureData=
           scope.manager.instanceGroup.female[1].uniforms.textureData=
           scope.manager.instanceGroup.female[0].uniforms.textureData;
+
+          window.scene.background = new THREE.CubeTextureLoader()
+            .setPath( './sky/' )
+            .load( ["home1_right.jpg","home1_left.jpg",  "home1_top.jpg", "home1_bottom.jpg", "home1_front.jpg", "home1_back.jpg"] );
         })
       })
 

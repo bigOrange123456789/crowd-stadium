@@ -44,13 +44,25 @@ class Main {
         this.scene.add(this.avatarManager.avatar);
 
         //生成天空盒子
-        this.scene.background = new THREE.CubeTextureLoader()
-        .setPath( './sky/' )
-        .load( ["home1_right.jpg","home1_left.jpg",  "home1_top.jpg", "home1_bottom.jpg", "home1_front.jpg", "home1_back.jpg"] );
-        // .load( ["home1_left.jpg", "home1_right.jpg", "home1_top.jpg", "home1_bottom.jpg", "home1_front.jpg", "home1_back.jpg"] );
+        window.scene=this.scene
+        setTimeout(()=>{
+            // this.scene.background = new THREE.CubeTextureLoader()
+            // .setPath( './sky/' )
+            // .load( ["home1_right.jpg","home1_left.jpg",  "home1_top.jpg", "home1_bottom.jpg", "home1_front.jpg", "home1_back.jpg"] );
+            // .load( ["home1_left.jpg", "home1_right.jpg", "home1_top.jpg", "home1_bottom.jpg", "home1_front.jpg", "home1_back.jpg"] );
+        },3000)
+        
 
 
         // 加载顺序
+        // //开始加载建筑模型
+        this.roomManager = new RoomManager(this.camera);
+        this.scene.add(this.roomManager.room);
+        this.roomManager.loadNextResource(); // 会议室其他
+
+        await this.avatarManager.init();
+        this.avatarManager.createSuperLowAvatar(); // 人物低模
+
         new THREE.GLTFLoader().load("assets/model/room/Stadium_00.gltf", (glb) => {
             var scene=glb.scene.children[0]
             scene.scale.set(0.03,0.03,0.03)
@@ -58,13 +70,7 @@ class Main {
             this.roomManager.room.visible=false
         });
 
-        await this.avatarManager.init();
-        this.avatarManager.createSuperLowAvatar(); // 人物低模
         this.avatarManager.createLowAvatar(); // 人物低模
-        // //开始加载建筑模型
-        this.roomManager = new RoomManager(this.camera);
-        this.scene.add(this.roomManager.room);
-        this.roomManager.loadNextResource(); // 会议室其他
         this.avatarManager.createMediumAvatar(); // 人物中模
         this.avatarManager.createHighAvatar(); // 人物高模
         
