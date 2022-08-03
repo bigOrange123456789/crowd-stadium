@@ -80,11 +80,11 @@ class AvatarManager {
         male: {
           highModelPath: "assets/crowd/model/male_high_merged.glb",
           highAnimationPath: "assets/crowd/animation/male_high_animations_merged.json",
-          highTexturePath: "assets/crowd/texture/maleTextureHigh.webp",
+          highTexturePath: "assets/crowd/texture/maleTextureLow.webp",//"assets/crowd/texture/maleTextureHigh.webp",
   
           mediumModelPath: "assets/crowd/model/male_medium_merged.glb",
           mediumAnimationPath: "assets/crowd/animation/male_medium_animations_merged.json",
-          mediumTexturePath: "assets/crowd/texture/maleTextureMedium.webp",
+          mediumTexturePath: "assets/crowd/texture/maleTextureLow.webp",//"assets/crowd/texture/maleTextureMedium.webp",
   
           lowModelPath: "assets/crowd/model/male_low.glb",
           lowTexturePath: "assets/crowd/texture/maleTextureLow.webp",
@@ -96,11 +96,11 @@ class AvatarManager {
         female: {
           highModelPath: "assets/crowd/model/female_high_merged.glb",
           highAnimationPath: "assets/crowd/animation/female_high_animations_merged.json",
-          highTexturePath: "assets/crowd/texture/femaleTextureHigh.webp",
+          highTexturePath: "assets/crowd/texture/femaleTextureLow.webp",//"assets/crowd/texture/femaleTextureHigh.webp",
   
           mediumModelPath: "assets/crowd/model/female_medium_merged.glb",
           mediumAnimationPath: "assets/crowd/animation/female_medium_animations_merged.json",
-          mediumTexturePath: "assets/crowd/texture/femaleTextureMedium.webp",
+          mediumTexturePath: "assets/crowd/texture/femaleTextureLow.webp",//"assets/crowd/texture/femaleTextureMedium.webp",
   
           lowModelPath: "assets/crowd/model/female_low.glb",
           lowTexturePath: "assets/crowd/texture/femaleTextureLow.webp",
@@ -496,20 +496,31 @@ class AvatarManager {
       instanceGroup.setSpeed(param.index, param.animationSpeed);
       instanceGroup.setTexture(param.index, param.textureType);
       instanceGroup.setRotation(param.index, rotation); // 使Avatar面向前方
-      instanceGroup.setPosition(param.index, param.position);
+      
       if(param.LOD==2){
+        instanceGroup.setPosition(param.index, [
+          param.position[0],
+          param.position[1],
+          param.position[2]
+        ]);
         instanceGroup.setScale(param.index, [
           1.2*param.scale[0],
           1.2*param.scale[1],
           1.2*param.scale[2]
         ]);
       }else if(param.LOD===3){
+        instanceGroup.setPosition(param.index, [
+          param.position[0],
+          param.position[1],
+          param.position[2]
+        ]);
         instanceGroup.setScale(param.index, [
           1.8*param.scale[0],
-          1.8*param.scale[1],
+          2.8*param.scale[1],
           1.8*param.scale[2]
         ]);
       }else{
+        instanceGroup.setPosition(param.index, param.position);
         instanceGroup.setScale(param.index, param.scale);
       }
       
@@ -690,7 +701,8 @@ class AvatarManager {
       const maleInstanceMesh = await maleInstanceGroup.init();
       this.manager.instanceGroup.male[0] = maleInstanceGroup;
       this.avatar.add(maleInstanceMesh);
-  
+      
+
       // female
       const femaleModel = await this.loadGLB(this.filePath.female.highModelPath);
       // const femaleMesh = femaleModel.scene.children[0].children[0].children[2];
@@ -715,8 +727,15 @@ class AvatarManager {
       const femaleInstanceMesh = await femaleInstanceGroup.init();
       this.manager.instanceGroup.female[0] = femaleInstanceGroup;
       this.avatar.add(femaleInstanceMesh);
+      
+
   
       this.lodFinished[0] = true;
+  
+      maleInstanceGroup.updateTexture("assets/crowd/texture/maleTextureHigh.webp")
+      femaleInstanceGroup.updateTexture("assets/crowd/texture/femaleTextureHigh.webp")
+      
+
     }
   
     loadJSON(path) {

@@ -51,9 +51,9 @@ class Main {
 
 
         // 加载顺序
-        await this.avatarManager.init();
-        await this.avatarManager.createSuperLowAvatar(); // 人物低模
-        await this.avatarManager.createLowAvatar(); // 人物低模
+        this.avatarManager.init();
+        this.avatarManager.createSuperLowAvatar(); // 人物低模
+        this.avatarManager.createLowAvatar(); // 人物低模
         // //开始加载建筑模型
         this.roomManager = new RoomManager(this.camera);
         this.scene.add(this.roomManager.room);

@@ -115,9 +115,18 @@ class InstancedGroup {
             this.uniforms.lightMapData = { value: lightMapData };
         }
         material.uniforms = this.uniforms;
+        // this.updateTexture()
 
         return material;
 
+    }
+    async updateTexture(url) {
+        // var textureData;
+        // if(this.textureUrl=="assets/crowd/texture/maleTextureLow.webp")textureData = await this.loadTexture("assets/crowd/texture/maleTextureHigh.webp");
+        // else textureData = await this.loadTexture("assets/crowd/texture/femaleTextureHigh.webp");
+        var textureData =await this.loadTexture(url);
+        textureData.flipY = false;
+        this.uniforms.textureData={ value: textureData };
     }
 
     async initAnimation(uniforms) {
