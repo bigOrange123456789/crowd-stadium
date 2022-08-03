@@ -7,40 +7,11 @@ class LODController {
         this.frustum = new THREE.Frustum();
         // const gpu = new GPU();
         this.planeIndecies = [ 0, 1, 2, 3 ]; // 用哪些面进行视锥剔除 0:右 1:左 2:下 3:上 4:远 5:近
-        this.lodLevels = [300, 5000] // LOD分为三等, 此数组数字为距离平方
-        // this.lodLevels = [3, 5]
-
-        // 计算LOD与视锥剔除
-        // this.computeDistanceGPU = gpu.createKernel(function( cameraPosition, frustumPlanes ) {
-
-        //     for ( let i = 0; i < this.constants.planeCount; i++ ) {
-        //         // 计算: dot(PlaneNormal, Point) + PlaneConstant
-        //         let distanceToPlane = this.constants.positions[this.thread.x][0] * frustumPlanes[i * 4];
-        //         distanceToPlane += this.constants.positions[this.thread.x][1] * frustumPlanes[i * 4 + 1];
-        //         distanceToPlane += this.constants.positions[this.thread.x][2] * frustumPlanes[i * 4 + 2];
-        //         distanceToPlane += frustumPlanes[i* 4 + 3];
-        //         if ( distanceToPlane < 0 ) return -1;
-        //     }
-
-        //     // 计算LOD
-        //     const a = this.constants.positions[this.thread.x][0] - cameraPosition[0];
-        //     const b = this.constants.positions[this.thread.x][1] - cameraPosition[1];
-        //     const c = this.constants.positions[this.thread.x][2] - cameraPosition[2];
-        //     const distance = a * a + b * b + c * c; // 距离平方
-
-        //     let lod = 2; // lod: 0, 1, 2
-        //     if ( distance < this.constants.lodLevels[0] ) lod = 0;
-        //     else if ( distance < this.constants.lodLevels[1] ) lod = 1;
-        //     return lod;
-
-        // }, {
-        //     constants: { 
-        //         positions: this.positions,
-        //         lodLevels: this.lodLevels,
-        //         planeCount: this.planeIndecies.length
-        //     },
-        //     output: [ this.positions.length ]
-        // });
+        this.lodLevels = [300, 1000,111100] // LOD分为三等, 此数组数字为距离平方
+        var scope=this
+        window.update_lod_distance=(number)=>{
+            scope.lodLevels[2]=number
+        }
 
     }
 
@@ -66,9 +37,10 @@ class LODController {
             // LOD
             if ( flag ) {
                 let distance = camera.distanceToSquared( point );
-                let lod = 2;
+                let lod = 3;
                 if ( distance < this.lodLevels[0] ) lod = 0;
                 else if ( distance < this.lodLevels[1] ) lod = 1;
+                else if ( distance < this.lodLevels[2] ) lod = 2;
                 result.push( lod )
             }
 

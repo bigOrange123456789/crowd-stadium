@@ -52,6 +52,7 @@ class Main {
 
         // 加载顺序
         await this.avatarManager.init();
+        await this.avatarManager.createSuperLowAvatar(); // 人物低模
         await this.avatarManager.createLowAvatar(); // 人物低模
         // //开始加载建筑模型
         this.roomManager = new RoomManager(this.camera);
@@ -217,7 +218,8 @@ class Main {
         let scope = this;
         let frameIndex = 0, frameIndexPre = 0;
         const tag = document.getElementById("fps");
-        tag.style.visibility='hidden';
+        window.tag=tag
+        //tag.style.visibility='hidden';
 
         render();
         
@@ -231,6 +233,10 @@ class Main {
             if ( window.innerWidth != scope.winWidth || window.innerHeight != scope.winHeight ) onResize();
             requestAnimationFrame( render );
         }
+        // setTimeout(()=>{
+        //     scope.avatarManager.updateLOD();
+        //     console.log("scope.avatarManager.updateLOD();")
+        // },1500)
 
         function computeFPS() {
             tag.innerHTML = (frameIndex - frameIndexPre);

@@ -12,7 +12,7 @@ class AvatarManager {
       this.camera = camera;
       this.clock = new THREE.Clock();
       this.lodController = new LODController(this.seatPositions, camera);
-      this.lodFinished = [false, false, false];
+      this.lodFinished = [false, false, false,false];
       this.filePath;
   
       this.manager = {
@@ -22,7 +22,7 @@ class AvatarManager {
           animationFrameCount: 20,
           male: {
             // 男性模型
-            maxCount: [60, 500, 5000], // 每级LOD的instance数量
+            maxCount: [60, 500,7000, 7000], // 每级LOD的instance数量
             textureCount: [5, 9], // 材质贴图数量 [row, col]
             animationCount: 8,
             body: {
@@ -33,7 +33,7 @@ class AvatarManager {
             },
           },
           female: {
-            maxCount: [60, 500, 5000],
+            maxCount: [60, 500,7000, 7000],
             textureCount: [5, 8],
             animationCount: 8,
             body: {
@@ -45,14 +45,9 @@ class AvatarManager {
           },
         },
         instanceGroup: {
-          male: new Array(3), // 3级LOD
-          female: new Array(3),
-        },
-        host: {
-          audio: null,
-          mixer: new Array(7),
-          cb: null,
-        },
+          male: new Array(4), // 4级LOD
+          female: new Array(4),
+        }
       };
   
       function vecAdd(a, b) {
@@ -77,6 +72,9 @@ class AvatarManager {
           mediumFragmentShader: "assets/shader/mediumFragmentShader.frag",
           lowVertexShader: "assets/shader/lowVertexShader.vert",
           lowFragmentShader: "assets/shader/lowFragmentShader.frag",
+
+          superlowVertexShader: "assets/shader/lowVertexShader.vert",
+          superlowFragmentShader: "assets/shader/lowFragmentShader.frag",
         },
   
         male: {
@@ -90,6 +88,9 @@ class AvatarManager {
   
           lowModelPath: "assets/crowd/model/male_low.glb",
           lowTexturePath: "assets/crowd/texture/maleTextureLow.webp",
+
+          superlowModelPath: "assets/crowd/model/male_low.glb",
+          superlowTexturePath: "assets/crowd/texture/maleTextureLow.webp",
         },
   
         female: {
@@ -103,6 +104,9 @@ class AvatarManager {
   
           lowModelPath: "assets/crowd/model/female_low.glb",
           lowTexturePath: "assets/crowd/texture/femaleTextureLow.webp",
+
+          superlowModelPath: "assets/crowd/model/female_low.glb",
+          superlowTexturePath: "assets/crowd/texture/femaleTextureLow.webp",
         },
       };
     }
@@ -417,8 +421,8 @@ class AvatarManager {
       );
     }
   
-    updateLOD() {
-      if (!this.lodFinished[2]) return;
+    updateLOD() {//每一帧执行一次
+      if (this.lodFinished[3]==false||this.lodFinished[2]==false) return;//记录数据的加载情况
   
       const minFinishedLOD = this.lodFinished[1]
         ? this.lodFinished[0]
@@ -426,11 +430,11 @@ class AvatarManager {
           : 1
         : 2;
       const lod = this.lodController.update();
-      let lodCount = {
-        male: [0, 0, 0],
-        female: [0, 0, 0],
+      let lodCount = {//三级LOD的个数
+        male: [0, 0, 0,0],
+        female: [0, 0, 0,0],
       };
-      let time = this.clock.getElapsedTime();
+      let time = this.clock.getElapsedTime();//用于同步人浪的时间
       for (let i = 0; i < lod.length; i++) {
         if (lod[i] != -1) {
           let param = this.manager.params[i];
@@ -454,11 +458,24 @@ class AvatarManager {
         group.mesh.count = lodCount.female[i];
         group.update();
       });
+      window.lod_count={//这个返回结果是三级LOD的人数，没有特别的作用
+        "0":lodCount.male[0] + lodCount.female[0],
+        "1":lodCount.male[1] + lodCount.female[1],
+        "2":lodCount.male[2] + lodCount.female[2],
+        "3":lodCount.male[3] + lodCount.female[3],
+        "sum":
+          lodCount.male[0] + lodCount.female[0]+
+          lodCount.male[1] + lodCount.female[1]+
+          lodCount.male[2] + lodCount.female[2]+
+          lodCount.male[3] + lodCount.female[3],
+        "fps":window.tag.innerHTML
+      };
   
-      return [
-        lodCount.male[0] + lodCount.female[0],
-        lodCount.male[1] + lodCount.female[1],
-        lodCount.male[2] + lodCount.female[2],
+      return [//这个返回结果是三级LOD的人数，没有特别的作用
+        lodCount.male[0] + lodCount.female[0], //高模
+        lodCount.male[1] + lodCount.female[1], //中模
+        lodCount.male[2] + lodCount.female[2], //低模
+        lodCount.male[3] + lodCount.female[3], //超低模
       ];
     }
   
@@ -467,9 +484,10 @@ class AvatarManager {
   
       // 人物旋转参数设置
       let rotation = param.rotation.slice(0, 3);
-      if (param.LOD == 2) rotation = param.rotation.slice(3, 6);
+      if (param.LOD == 2 || param.LOD == 3) rotation = param.rotation.slice(3, 6);
   
       const instanceGroup = this.manager.instanceGroup[param.sex][param.LOD];
+      // console.log(instanceGroup,param.LOD)
       instanceGroup.setAnimation(
         param.index,
         param.animationType,
@@ -481,6 +499,54 @@ class AvatarManager {
       instanceGroup.setPosition(param.index, param.position);
       instanceGroup.setScale(param.index, param.scale);
       instanceGroup.setBodyScale(param.index, param.bodyScale);
+    }
+
+    async createSuperLowAvatar() {
+      // male
+      const maleModel = await this.loadGLB(this.filePath.male.superlowModelPath);
+      const maleMesh = maleModel.scene.children[0];
+  
+      const maleInstanceGroup = new InstancedGroup(
+        this.manager.config.male.maxCount[3],
+        maleMesh,
+        false,
+        false,
+        this.filePath.male.superlowTexturePath,
+        false,
+        this.manager.config.male.textureCount,
+        this.camera,
+        this.clock
+      );
+      maleInstanceGroup.vertURL = this.filePath.shader.superlowVertexShader;
+      maleInstanceGroup.fragURL = this.filePath.shader.superlowFragmentShader;
+  
+      const maleInstanceMesh = await maleInstanceGroup.init();
+      this.manager.instanceGroup.male[3] = maleInstanceGroup;
+      this.avatar.add(maleInstanceMesh);
+  
+      // female
+      const femaleModel = await this.loadGLB(this.filePath.female.superlowModelPath);
+      const femaleMesh = femaleModel.scene.children[0];
+  
+      const femaleInstanceGroup = new InstancedGroup(
+        this.manager.config.female.maxCount[3],
+        femaleMesh,
+        false,
+        false,
+        this.filePath.female.superlowTexturePath,
+        false,
+        this.manager.config.female.textureCount,
+        this.camera,
+        this.clock
+      );
+      femaleInstanceGroup.vertURL = this.filePath.shader.superlowVertexShader;
+      femaleInstanceGroup.fragURL = this.filePath.shader.superlowFragmentShader;
+  
+      const femaleInstanceMesh = await femaleInstanceGroup.init();
+      this.manager.instanceGroup.female[3] = femaleInstanceGroup;
+      this.avatar.add(femaleInstanceMesh);
+  
+      this.lodFinished[3] = true;
     }
   
     async createLowAvatar() {

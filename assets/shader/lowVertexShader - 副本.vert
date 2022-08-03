@@ -30,23 +30,11 @@ void main() {
         vec4(mcol2, 0),
         vec4(mcol3, 1)
     );
-    
 
     vec3 pos = position;
     if (animationIndex > 5.5) { // 如果是站立动画, 位置向上移动
         pos.z += 0.3;
     }
     gl_Position = projectionMatrix * modelViewMatrix * transformMatrix * vec4(pos, 1.0);
-    // gl_Position = projectionMatrix * modelViewMatrix *  vec4(
-    //     pos.x*mcol0[0]+mcol3[0], 
-    //     pos.y*mcol1[1]+mcol3[1], 
-    //     pos.z*mcol2[2]+mcol3[2], 
-    //     1.0);
-    // gl_Position = projectionMatrix * modelViewMatrix *  vec4(
-    //     pos.x+mcol3[0], 
-    //     pos.y+mcol3[1], 
-    //     pos.z+mcol3[2], 
-    //     1.0);
-
 
 }
