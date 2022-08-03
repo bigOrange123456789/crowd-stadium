@@ -80,7 +80,7 @@ class Main {
             myVideoManager.init();
             myVideoManager.setPlay()
             scope.createUI()
-            //scope.preview()
+            scope.preview()
             
         })
 
@@ -171,7 +171,15 @@ class Main {
         }
         funcArr[ movePath.length - 1 ] = function() {
         }
-        new MoveManager(this.camera, movePath, funcArr);
+        var myMoveManager=new MoveManager(this.camera, movePath, funcArr);
+        setTimeout(()=>{
+            document.onmousedown=function(){
+                myMoveManager.stopFlag=true
+                console.log(1)
+            }
+        },1000)
+
+
 
     }
 

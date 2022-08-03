@@ -17,6 +17,7 @@ class MoveManager{
         let scope = this;
         autoRoam();
         function autoRoam(){
+            if(scope.stopFlag)return
             if (
                 scope.myMakeOneRoamStep.preview(
                     scope.nextPreviewFlag, 

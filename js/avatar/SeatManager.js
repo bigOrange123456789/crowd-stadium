@@ -130,7 +130,6 @@ class SeatManager {
                 ])
             }
             if(i0==8){
-                console.log("s",s)
                 if(s[0]>-174)
                 for(var j=0;j<numbers2[i0]-4;j++){
                     this.positions.push([
