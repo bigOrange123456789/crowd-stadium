@@ -5,7 +5,7 @@ class InstancedGroup {
         originMesh,
         animationUrl,
         morphTargetUrl,
-        textureUrl,
+        textureData,// textureUrl,
         lightMapUrl,
         textureCount, // [row, col]
         camera,
@@ -17,7 +17,7 @@ class InstancedGroup {
         this.originMesh = originMesh;
         this.animationUrl = animationUrl;
         this.morphTargetUrl = morphTargetUrl;
-        this.textureUrl = textureUrl;
+        this.textureData=textureData;//this.textureUrl = textureUrl;
         this.textureCount = textureCount;
         this.lightMapUrl = lightMapUrl;
         this.camera = camera;
@@ -85,8 +85,8 @@ class InstancedGroup {
 
     async initMaterial() {
 
-        const textureData = await this.loadTexture(this.textureUrl);
-        textureData.flipY = false;
+        // const textureData = await this.loadTexture(this.textureUrl);
+        // textureData.flipY = false;
         const vertexShader = await this.loadShader(this.vertURL);
         const fragmentShader = await this.loadShader(this.fragURL);
 
@@ -96,7 +96,7 @@ class InstancedGroup {
 
         this.uniforms = {
             textureCount: { value: new THREE.Vector2(...this.textureCount) },
-            textureData: { value: textureData },
+            textureData: { value: this.textureData },
             headUV: { value: new THREE.Vector4(...this.body.head) },
             handUV: { value: new THREE.Vector4(...this.body.hand) },
             bottomUV: { value: new THREE.Vector4(...this.body.bottom) }
@@ -120,14 +120,18 @@ class InstancedGroup {
         return material;
 
     }
-    async updateTexture(url) {
+    async updateTexture(url,cb) {
         // var textureData;
         // if(this.textureUrl=="assets/crowd/texture/maleTextureLow.webp")textureData = await this.loadTexture("assets/crowd/texture/maleTextureHigh.webp");
         // else textureData = await this.loadTexture("assets/crowd/texture/femaleTextureHigh.webp");
         var textureData =await this.loadTexture(url);
         textureData.flipY = false;
         this.uniforms.textureData={ value: textureData };
+        if(cb){
+            cb(textureData)
+        }
     }
+
 
     async initAnimation(uniforms) {
 

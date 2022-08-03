@@ -57,13 +57,20 @@ class AvatarManager {
   
     async init() {
       // this.psnr = await this.loadJSON("assets/crowd/PSNR.json"); // 峰值信噪比
-      this.initFilePath();
+      await this.initFilePath();
       this.initAvatarParams();
       // this.adjustParam();
       // this.computeDisp();
     }
   
-    initFilePath() {
+    async initFilePath() {
+      var instanceGroup0=new InstancedGroup()
+      console.log(instanceGroup0)
+      var textureData_male  =await instanceGroup0.loadTexture("assets/crowd/texture/maleTextureLow.webp")
+      var textureData_female=await instanceGroup0.loadTexture("assets/crowd/texture/femaleTextureLow.webp")
+      textureData_male.flipY = false;
+      textureData_female.flipY = false;
+
       this.filePath = {
         shader: {
           highVertexShader: "assets/shader/highVertexShader.vert",
@@ -80,33 +87,33 @@ class AvatarManager {
         male: {
           highModelPath: "assets/crowd/model/male_high_merged.glb",
           highAnimationPath: "assets/crowd/animation/male_high_animations_merged.json",
-          highTexturePath: "assets/crowd/texture/maleTextureLow.webp",//"assets/crowd/texture/maleTextureHigh.webp",
+          highTexturePath: textureData_male,//"assets/crowd/texture/maleTextureLow.webp",//"assets/crowd/texture/maleTextureHigh.webp",
   
           mediumModelPath: "assets/crowd/model/male_medium_merged.glb",
           mediumAnimationPath: "assets/crowd/animation/male_medium_animations_merged.json",
-          mediumTexturePath: "assets/crowd/texture/maleTextureLow.webp",//"assets/crowd/texture/maleTextureMedium.webp",
+          mediumTexturePath: textureData_male,//"assets/crowd/texture/maleTextureLow.webp",//"assets/crowd/texture/maleTextureMedium.webp",
   
           lowModelPath: "assets/crowd/model/male_low.glb",
-          lowTexturePath: "assets/crowd/texture/maleTextureLow.webp",
+          lowTexturePath: textureData_male,//"assets/crowd/texture/maleTextureLow.webp",
 
           superlowModelPath: "assets/crowd/model/male_super_low.glb",
-          superlowTexturePath: "assets/crowd/texture/maleTextureLow.webp",
+          superlowTexturePath: textureData_male,//"assets/crowd/texture/maleTextureLow.webp",
         },
   
         female: {
           highModelPath: "assets/crowd/model/female_high_merged.glb",
           highAnimationPath: "assets/crowd/animation/female_high_animations_merged.json",
-          highTexturePath: "assets/crowd/texture/femaleTextureLow.webp",//"assets/crowd/texture/femaleTextureHigh.webp",
+          highTexturePath: textureData_female,//"assets/crowd/texture/femaleTextureLow.webp",//"assets/crowd/texture/femaleTextureHigh.webp",
   
           mediumModelPath: "assets/crowd/model/female_medium_merged.glb",
           mediumAnimationPath: "assets/crowd/animation/female_medium_animations_merged.json",
-          mediumTexturePath: "assets/crowd/texture/femaleTextureLow.webp",//"assets/crowd/texture/femaleTextureMedium.webp",
+          mediumTexturePath: textureData_female,//"assets/crowd/texture/femaleTextureLow.webp",//"assets/crowd/texture/femaleTextureMedium.webp",
   
           lowModelPath: "assets/crowd/model/female_low.glb",
-          lowTexturePath: "assets/crowd/texture/femaleTextureLow.webp",
+          lowTexturePath: textureData_female,//"assets/crowd/texture/femaleTextureLow.webp",
 
           superlowModelPath: "assets/crowd/model/female_super_low.glb",
-          superlowTexturePath: "assets/crowd/texture/femaleTextureLow.webp",
+          superlowTexturePath: textureData_female,//"assets/crowd/texture/femaleTextureLow.webp",
         },
       };
     }
@@ -731,10 +738,32 @@ class AvatarManager {
 
   
       this.lodFinished[0] = true;
-  
-      maleInstanceGroup.updateTexture("assets/crowd/texture/maleTextureHigh.webp")
-      femaleInstanceGroup.updateTexture("assets/crowd/texture/femaleTextureHigh.webp")
-      
+
+      var scope=this
+      maleInstanceGroup.updateTexture("assets/crowd/texture/maleTextureMedium.webp",()=>{
+        // textureData.flipY = false;
+        // scope.manager.instanceGroup.female[1].uniforms.textureData={ value: textureData };
+        scope.manager.instanceGroup.male[2].uniforms.textureData=
+        scope.manager.instanceGroup.male[1].uniforms.textureData=
+        scope.manager.instanceGroup.male[0].uniforms.textureData;
+        maleInstanceGroup.updateTexture("assets/crowd/texture/maleTextureHigh.webp",()=>{
+          scope.manager.instanceGroup.male[2].uniforms.textureData=
+          scope.manager.instanceGroup.male[1].uniforms.textureData=
+          scope.manager.instanceGroup.male[0].uniforms.textureData;
+        })
+      })
+      femaleInstanceGroup.updateTexture("assets/crowd/texture/femaleTextureMedium.webp",()=>{
+        scope.manager.instanceGroup.female[2].uniforms.textureData=
+        scope.manager.instanceGroup.female[1].uniforms.textureData=
+        scope.manager.instanceGroup.female[0].uniforms.textureData;
+        femaleInstanceGroup.updateTexture("assets/crowd/texture/femaleTextureHigh.webp",()=>{
+          scope.manager.instanceGroup.female[2].uniforms.textureData=
+          scope.manager.instanceGroup.female[1].uniforms.textureData=
+          scope.manager.instanceGroup.female[0].uniforms.textureData;
+        })
+      })
+
+
 
     }
   

@@ -51,7 +51,14 @@ class Main {
 
 
         // 加载顺序
-        this.avatarManager.init();
+        new THREE.GLTFLoader().load("assets/model/room/Stadium_00.gltf", (glb) => {
+            var scene=glb.scene.children[0]
+            scene.scale.set(0.03,0.03,0.03)
+            scope.scene.add(scene)
+            this.roomManager.room.visible=false
+        });
+
+        await this.avatarManager.init();
         this.avatarManager.createSuperLowAvatar(); // 人物低模
         this.avatarManager.createLowAvatar(); // 人物低模
         // //开始加载建筑模型
@@ -60,13 +67,6 @@ class Main {
         this.roomManager.loadNextResource(); // 会议室其他
         this.avatarManager.createMediumAvatar(); // 人物中模
         this.avatarManager.createHighAvatar(); // 人物高模
-
-        new THREE.GLTFLoader().load("assets/model/room/Stadium_00.gltf", (glb) => {
-            var scene=glb.scene.children[0]
-            scene.scale.set(0.03,0.03,0.03)
-            scope.scene.add(scene)
-            this.roomManager.room.visible=false
-        });
         
         
         new Blur(()=>{
