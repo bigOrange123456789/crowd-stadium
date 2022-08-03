@@ -740,22 +740,35 @@ class AvatarManager {
       this.lodFinished[0] = true;
 
       var scope=this
-      maleInstanceGroup.updateTexture("assets/crowd/texture/maleTextureMedium.webp",()=>{
+      // maleInstanceGroup.updateTexture("assets/crowd/texture/maleTextureMedium.webp",()=>{
+      //   // textureData.flipY = false;
+      //   // scope.manager.instanceGroup.female[1].uniforms.textureData={ value: textureData };
+      //   scope.manager.instanceGroup.male[2].uniforms.textureData=
+      //   scope.manager.instanceGroup.male[1].uniforms.textureData=
+      //   scope.manager.instanceGroup.male[0].uniforms.textureData;
+      //   maleInstanceGroup.updateTexture("assets/crowd/texture/maleTextureHigh.webp",()=>{
+      //     scope.manager.instanceGroup.male[2].uniforms.textureData=
+      //     scope.manager.instanceGroup.male[1].uniforms.textureData=
+      //     scope.manager.instanceGroup.male[0].uniforms.textureData;
+      //   })
+      // })
+      // femaleInstanceGroup.updateTexture("assets/crowd/texture/femaleTextureMedium.webp",()=>{
+      //   scope.manager.instanceGroup.female[2].uniforms.textureData=
+      //   scope.manager.instanceGroup.female[1].uniforms.textureData=
+      //   scope.manager.instanceGroup.female[0].uniforms.textureData;
+      //   femaleInstanceGroup.updateTexture("assets/crowd/texture/femaleTextureHigh.webp",()=>{
+      //     scope.manager.instanceGroup.female[2].uniforms.textureData=
+      //     scope.manager.instanceGroup.female[1].uniforms.textureData=
+      //     scope.manager.instanceGroup.female[0].uniforms.textureData;
+      //   })
+      // })
+
+      maleInstanceGroup.updateTexture("assets/crowd/texture/maleTextureHigh.webp",()=>{
         // textureData.flipY = false;
         // scope.manager.instanceGroup.female[1].uniforms.textureData={ value: textureData };
         scope.manager.instanceGroup.male[2].uniforms.textureData=
         scope.manager.instanceGroup.male[1].uniforms.textureData=
         scope.manager.instanceGroup.male[0].uniforms.textureData;
-        maleInstanceGroup.updateTexture("assets/crowd/texture/maleTextureHigh.webp",()=>{
-          scope.manager.instanceGroup.male[2].uniforms.textureData=
-          scope.manager.instanceGroup.male[1].uniforms.textureData=
-          scope.manager.instanceGroup.male[0].uniforms.textureData;
-        })
-      })
-      femaleInstanceGroup.updateTexture("assets/crowd/texture/femaleTextureMedium.webp",()=>{
-        scope.manager.instanceGroup.female[2].uniforms.textureData=
-        scope.manager.instanceGroup.female[1].uniforms.textureData=
-        scope.manager.instanceGroup.female[0].uniforms.textureData;
         femaleInstanceGroup.updateTexture("assets/crowd/texture/femaleTextureHigh.webp",()=>{
           scope.manager.instanceGroup.female[2].uniforms.textureData=
           scope.manager.instanceGroup.female[1].uniforms.textureData=
