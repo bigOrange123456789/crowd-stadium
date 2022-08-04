@@ -70,7 +70,7 @@ class Main {
 
         this.avatarManager.createSuperLowAvatar(); // 人物低模
 
-        new THREE.GLTFLoader().load("assets/model/room/Stadium_00.gltf", (glb) => {
+        new THREE.GLTFLoader().load("assets/room/Stadium_00.gltf", (glb) => {
             var scene=glb.scene.children[0]
             scene.scale.set(0.03,0.03,0.03)
             scope.scene.add(scene)

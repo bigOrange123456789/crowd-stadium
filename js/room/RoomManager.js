@@ -6,7 +6,7 @@ class RoomManager{
         
         this.room = new THREE.Object3D();
         this.room.scale.set(3,3,3);
-        this.url = "assets/model/room_split/";
+        this.url = "assets/room_split/";
         this.camera = camera;
         this.roomScene;
 
