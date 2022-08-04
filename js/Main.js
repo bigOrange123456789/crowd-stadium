@@ -31,6 +31,8 @@ class Main {
     }
 
     async initScene() {
+        window.time1=performance.now()
+        console.log(window.time1-window.time0,"1:start initScene")
 
         let scope = this;
 
@@ -61,6 +63,11 @@ class Main {
         this.roomManager.loadNextResource(); // 会议室其他
 
         await this.avatarManager.init();
+
+        window.time2=performance.now()
+        console.log(window.time2-window.time1,"2:avatarManager.init")
+
+
         this.avatarManager.createSuperLowAvatar(); // 人物低模
 
         new THREE.GLTFLoader().load("assets/model/room/Stadium_00.gltf", (glb) => {
@@ -255,7 +262,7 @@ class Main {
         // },1500)
 
         function computeFPS() {
-            tag.innerHTML = (frameIndex - frameIndexPre);
+            tag.innerHTML = "FPS:"+(frameIndex - frameIndexPre);
             frameIndexPre = frameIndex;
         }
 

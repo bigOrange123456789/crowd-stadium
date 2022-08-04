@@ -51,6 +51,8 @@ class InstancedGroup {
     }
 
     async init() {
+        var time0=performance.now()
+        var test_print=[]
 
         this.originMesh.geometry = this.originMesh.geometry.toNonIndexed();
 
@@ -71,24 +73,51 @@ class InstancedGroup {
             this.reset(i);
         }
 
+        var time1=performance.now()
+        test_print.push([time1-time0,"-1-"])
+
         const material = await this.initMaterial();
+        
+        var time2=performance.now()
+        test_print.push([time2-time1,"-2-:await this.initMaterial"])
+
         const geometry = await this.initGeometry();
+
+        var time3=performance.now()
+        test_print.push([time3-time2,"-3-:await this.initGeometry"])
+
+
         const mesh = new THREE.InstancedMesh(geometry, material, this.instanceCount);
         mesh.castShadow = true; // 阴影
         mesh.receiveShadow = true;
         mesh.frustumCulled = false;
         this.mesh = mesh;
 
+        var time4=performance.now()
+        test_print.push([time4-time3,"-4-:end"])
+        test_print.push([time4-time0,"all"])
+        console.log("InstancedGroup.init",test_print)
+
         return mesh;
 
     }
 
     async initMaterial() {
+        var time0=performance.now()
+        var test_print=[]
 
         // const textureData = await this.loadTexture(this.textureUrl);
         // textureData.flipY = false;
+
         const vertexShader = await this.loadShader(this.vertURL);
+
+        var time1=performance.now()
+        test_print.push([time1-time0,"-1-:await load(vertURL)"])
+
         const fragmentShader = await this.loadShader(this.fragURL);
+
+        var time2=performance.now()
+        test_print.push([time2-time1,"-2-:await load(fragURL)",this.fragURL])
 
         let material = new THREE.RawShaderMaterial();
         material.vertexShader = vertexShader;
@@ -110,12 +139,24 @@ class InstancedGroup {
             this.uniforms.animationTextureLength = { value: 0 };
             this.initAnimation(this.uniforms); // 异步加载动画数据
         }
+        var time3=performance.now()
+        test_print.push([time3-time2,"-3-:if Animated"])
+
         if (this.lightMapUrl) {
             const lightMapData = await this.loadTexture(this.lightMapUrl);
             this.uniforms.lightMapData = { value: lightMapData };
         }
+
+        var time4=performance.now()
+        test_print.push([time4-time3,"-4-:if lightMapUrl"])
+
         material.uniforms = this.uniforms;
         // this.updateTexture()
+
+        var time5=performance.now()
+        test_print.push([time5-time4,"-5-"])
+        test_print.push([time5-time0,"-all-"])
+        console.log("InstancedGroup.initMaterial",test_print)
 
         return material;
 
@@ -225,13 +266,27 @@ class InstancedGroup {
     loadShader(path) {
 
         return new Promise((resolve, reject) => {
+            if(!window.my_shader)window.my_shader={
+                "assets/shader/lowFragmentShader.frag": "#version 300 es\nprecision highp float;\nuniform sampler2D textureData;\nuniform vec2 textureCount; // [row, col]\nin vec4 outTextureIndex;\nin vec2 outUV;\nout vec4 outColor;\nvec4 computeTextureColor() { // 贴图颜色\n    float u = outUV.x;\n    float v = outUV.y;\n    if (u > 0.5) u = 1. - u; // 对称\n    u = u * 2.;\n    float textureIndex = outTextureIndex[0];\n    float col=(\n       textureIndex/textureCount[1] - floor(textureIndex/textureCount[1]) \n    ) *textureCount[1];//float(int(textureIndex) % int(textureCount[1]));\n    float row = (textureIndex - col) / textureCount[1];\n    row=round(row);\n    u = (u * 0.95 + col) / textureCount[1];\n    v = (v + row) / textureCount[0];\n    vec4 color = texture( textureData, vec2(u, v) );\n    return color;\n}\nvoid main() {\n    outColor = vec4(computeTextureColor().xyz * 1.1, 1.);\n}\n",
+                "assets/shader/lowVertexShader.vert": "#version 300 es\n\nprecision highp float;\nuniform mat4 modelViewMatrix, projectionMatrix;\n// uniform vec3 cameraPosition;\n\nin vec3 position;\nin vec2 inUV;\nin vec3 normal;\nin vec3 mcol0, mcol1, mcol2, mcol3;\nin vec4 textureIndex;\nin float animationIndex; // 动画类型\n\nout vec2 outUV;\nout vec3 outNormal;\nout vec4 outTextureIndex;\n// out vec3 lightDirection;\n\nvoid main() {\n\n    outUV = inUV;\n    outNormal = normal;\n    outTextureIndex = textureIndex;\n\n    // lightDirection = normalize(cameraPosition - mcol3);\n\n    mat4 transformMatrix = mat4(\n        vec4(mcol0, 0),\n        vec4(mcol1, 0),\n        vec4(mcol2, 0),\n        vec4(mcol3, 1)\n    );\n    \n\n    vec3 pos = position;\n    if (animationIndex > 5.5) { // 如果是站立动画, 位置向上移动\n        pos.z += 0.3;\n    }\n    gl_Position = projectionMatrix * modelViewMatrix * transformMatrix * vec4(pos, 1.0);\n    // gl_Position = projectionMatrix * modelViewMatrix *  vec4(\n    //     pos.x*mcol0[0]+mcol3[0], \n    //     pos.y*mcol1[1]+mcol3[1], \n    //     pos.z*mcol2[2]+mcol3[2], \n    //     1.0);\n    // gl_Position = projectionMatrix * modelViewMatrix *  vec4(\n    //     pos.x+mcol3[0], \n    //     pos.y+mcol3[1], \n    //     pos.z+mcol3[2], \n    //     1.0);\n\n\n}\n",
+                "assets/shader/mediumFragmentShader.frag": "#version 300 es\n\nprecision highp float;\nuniform sampler2D textureData;\n// uniform sampler2D lightMapData;\nuniform vec2 textureCount; // [row, col]\nuniform vec3 cameraPosition;\nuniform vec4 headUV;\nuniform vec4 handUV;\nuniform vec4 bottomUV;\n\nin vec4 outTextureIndex;\nin vec2 outUV;\nin vec3 outNormal;\nin vec3 outPosition;\n\nout vec4 fragColor;\n\nstruct PointLight {\n    vec3 position;\n    vec3 diffuseColor;\n    vec3 ambientColor;\n};\n\nstruct Material {\n    vec3 textureColor;\n    float kAmbient, kDiffuse, kSpecular; // 环境光, 漫反射, 高光 的比例\n    float gloss;\n};\n\nfloat getTextureIndex(float u, float v) {\n\n    if (\n        (u - headUV[0]) * (headUV[2] - u) > 0. &&\n        (v - headUV[1]) * (headUV[3] - v) > 0.\n    ) { return outTextureIndex[1]; }\n    if (\n        (u - handUV[0]) * (handUV[2] - u) > 0. &&\n        (v - handUV[1]) * (handUV[3] - v) > 0.\n    ) { return outTextureIndex[1]; }\n    if (\n        (u - bottomUV[0]) * (bottomUV[2] - u) > 0. &&\n        (v - bottomUV[1]) * (bottomUV[3] - v) > 0.\n    ) { return outTextureIndex[2]; }\n    else { return outTextureIndex[0]; }\n\n}\n\nvec4 computeTextureColor() { // 贴图颜色\n\n    float u = outUV.x;\n    float v = outUV.y;\n    if (u > 0.5) u = 1. - u; // 对称\n    u = u * 2.;\n    float textureIndex = getTextureIndex(u, v);\n\n    float col=(\n       textureIndex/textureCount[1] - floor(textureIndex/textureCount[1]) \n    ) *textureCount[1];//float(int(textureIndex) % int(textureCount[1]));\n    float row = (textureIndex - col) / textureCount[1];\n    row=round(row);\n\n    u = (u * 0.95 + col) / textureCount[1];\n    v = (v + row) / textureCount[0];\n    vec4 color = texture( textureData, vec2(u, v) );\n    return color;\n\n}\n\nvec3 blinnPhong( // 光照模型\n    PointLight light,\n    Material material,\n    vec3 surfacePosition,\n    vec3 surfaceNormal,\n    vec3 viewPosition\n) {\n\n    vec3 viewDirection = normalize(viewPosition - surfacePosition);\n    vec3 lightDirection = normalize(light.position - surfacePosition);\n    vec3 normalDirection = normalize(surfaceNormal);\n\n    // Ambient\n    vec3 ambient = light.ambientColor * material.textureColor;\n\n    // Diffuse\n    vec3 diffuse = light.diffuseColor * material.textureColor * max(0., dot(lightDirection, normalDirection));\n\n    // vec3 lightmapValue = texture( lightMapData, outUV ).rgb; // lightMap\n    // ambient *= lightmapValue;\n    // diffuse *= lightmapValue;\n\n    // Specular  公式: (n·(v+l)/|v+l|)^g\n    float specular = pow(max(0., dot(normalize(viewDirection + lightDirection), normalDirection)), material.gloss);\n\n    return (\n        material.kAmbient * ambient +\n        material.kDiffuse * diffuse +\n        material.kSpecular * specular\n    );\n\n}\n\nvoid main() {\n\n    PointLight light = PointLight(\n        vec3(0., 40.97, 0.), // 点光源位置\n        vec3(1., 1., 1.), // 漫反射颜色\n        vec3(1., 1., 1.) // 高光颜色\n    );\n\n    Material material = Material(\n        computeTextureColor().rgb,\n        0.7, 0.4, 0.25, // 三种光照比例 环境光:漫反射:高光\n        16. // 粗糙度  其值越大, 高光区域越小\n    );\n    \n\n    fragColor = vec4(blinnPhong(light, material, outPosition, outNormal, cameraPosition), 1.);\n\n}\n",
+                "assets/shader/mediumVertexShader.vert": "#version 300 es\n\nprecision highp float;\nuniform sampler2D animationTexture;\nuniform float boneCount, animationFrameCount, animationTextureLength, animationCount;\nuniform mat4 modelViewMatrix, projectionMatrix;\nuniform float time;\n// uniform vec3 cameraPosition;\n\nin vec3 position;\nin vec2 inUV;\nin vec3 normal;\nin vec4 skinIndex, skinWeight; // 仅使用了绑定的第一个骨骼\nin vec3 mcol0, mcol1, mcol2, mcol3;\nin float speed, animationStartTime;\nin float animationIndex; // 动画类型\nin vec4 textureIndex;\n\nout vec2 outUV;\nout vec3 outNormal;\nout vec4 outTextureIndex;\nout vec3 outPosition;\n\nvec3 getAnimationItem(float index) { // 从texture中提取矩阵元素\n\n    float v = floor(index / animationTextureLength);\n    float u = index - v * animationTextureLength;\n    vec3 data = texture(\n        animationTexture, \n        vec2( (0.5 + u) / animationTextureLength, (0.5 + v) / animationTextureLength )\n    ).xyz;\n    return data;\n\n}\n\nmat4 computeAnimationMatrix(float boneIndex) {\n\n    float frameIndex = float(int((time - animationStartTime) * speed) % int(animationFrameCount));\n    float startPos = 4. * (boneCount * ((animationIndex - 1.) * animationFrameCount + frameIndex) + boneIndex);\n    if ( animationIndex < 0.5 ) {\n        startPos = 4. * (boneCount * (2. * animationFrameCount) + boneIndex); // 默认使用三个动画第一帧作为静止状态\n    }\n    return mat4(\n        vec4(getAnimationItem(startPos+0.), 0.),\n        vec4(getAnimationItem(startPos+1.), 0.),\n        vec4(getAnimationItem(startPos+2.), 0.),\n        vec4(getAnimationItem(startPos+3.), 1.)\n    );\n    \n}\n\nvoid main() {\n\n    outUV = inUV;\n    outTextureIndex = textureIndex;\n\n    mat4 animationMatrix = computeAnimationMatrix(skinIndex[0]);\n    mat4 transformMatrix = mat4(\n        vec4(mcol0, 0.),\n        vec4(mcol1, 0.),\n        vec4(mcol2, 0.),\n        vec4(mcol3, 1.)\n    );\n\n    outNormal = (transformMatrix * animationMatrix * vec4(normal, 0.)).xyz;\n    vec4 transPos = transformMatrix * animationMatrix * vec4(position, 1.);\n    outPosition = transPos.xyz;\n\n    gl_Position = projectionMatrix * modelViewMatrix * transPos;\n\n}\n"
+            }
+            if(window.my_shader[path])resolve(window.my_shader[path])
+
             let xhr = new XMLHttpRequest();
-            xhr.onload =  () => resolve(xhr.responseText);
+            xhr.onload =  () => {
+                resolve(xhr.responseText)
+                window.my_shader[path]=xhr.responseText
+            };
             xhr.onerror =  event => reject(event);
             xhr.open('GET', path);
             xhr.overrideMimeType("text/html;charset=utf-8");
             xhr.send();
         });
+        window.my_shader_download()={
+
+        }
 
     }
 

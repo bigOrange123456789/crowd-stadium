@@ -1,0 +1,39 @@
+<script type="module">
+    var path0="assets/shader/"
+    var paths=[
+        "highFragmentShader.frag",
+        "highVertexShader.vert",
+        "lowFragmentShader.frag",
+        "lowVertexShader.vert",
+        "mediumFragmentShader.frag",
+        "mediumVertexShader.vert",
+    ]
+    window.my_shader={}
+    function loadShader(path) {
+        return new Promise((resolve, reject) => {
+
+            let xhr = new XMLHttpRequest();
+            xhr.onload =  () => {
+                resolve(xhr.responseText)
+                window.my_shader[path0+path]=xhr.responseText
+            };
+            xhr.onerror =  event => reject(event);
+            xhr.open('GET', path);
+            xhr.overrideMimeType("text/html;charset=utf-8");
+            xhr.send();
+        })
+    }
+    
+    for(var i=0;i<paths.length;i++)
+        await loadShader(paths[i])
+    console.log(window.my_shader)
+
+    var str=JSON.stringify( window.my_shader, null, "\t")
+    var link = document.createElement('a');
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.href = URL.createObjectURL(new Blob([str], { type: 'text/plain' }));
+    link.download =name?name:"shader.json";
+    link.click();
+
+</script>

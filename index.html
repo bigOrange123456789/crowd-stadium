@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>MEETING</title>
+		<title>stadium</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link rel="shortcut icon" href="logo.jpeg">
 		<style>
 			body { overflow: hidden; }
 			#fps {
-				color: green;
+				color: #fff;
 				font-size: 20px;
 				font-weight: normal;
 				position: fixed;
 				left: 0px;
 				top: 0px;
+			}
+			#number {
+				color: #fff;
+				font-size: 20px;
+				font-weight: normal;
+				position: fixed;
+				left: 0px;
+				top: 25px;
 			}
 			#bg {
 				background-size: 100%;
@@ -33,6 +41,9 @@
 	</head>
 	<body style="margin: 0">
 		<h1 id="fps"></h1>
+		<h1 id="number"></h1>
+		
+		</h1>
 		<div id="cheat" style="position:absolute;left:0;right:0;background-size:100%;background:#01f;">
 
 		</div>
@@ -41,6 +52,7 @@
 		<script src="js/lib/threeJS/GLTFLoader.js"></script>
 		<script src='./js/VideoManager.js'></script>
 		<script type="module">	
+			window.time0=performance.now()//起始时间
 			import { Main } from './js/Main.js';
 			import { PlayerControl } from './js/lib/playerControl/PlayerControl.js';
 

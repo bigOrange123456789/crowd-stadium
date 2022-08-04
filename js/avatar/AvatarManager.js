@@ -503,6 +503,7 @@ class AvatarManager {
           lodCount.male[3] + lodCount.female[3],
         "fps":window.tag.innerHTML
       };
+      document.getElementById("number").innerHTML="同屏人数:"+window.lod_count.sum
   
       return [//这个返回结果是三级LOD的人数，没有特别的作用
         lodCount.male[0] + lodCount.female[0], //高模
@@ -563,6 +564,10 @@ class AvatarManager {
     async createSuperLowAvatar() {
       // male
       const maleModel = await this.loadGLB(this.filePath.male.superlowModelPath);
+      
+      window.time3=performance.now()
+      console.log(window.time3-window.time2,"3:maleModel = await this.loadGLB")
+
       const maleMesh = maleModel.scene.children[0];
   
       const maleInstanceGroup = new InstancedGroup(
@@ -582,6 +587,9 @@ class AvatarManager {
       const maleInstanceMesh = await maleInstanceGroup.init();
       this.manager.instanceGroup.male[3] = maleInstanceGroup;
       this.avatar.add(maleInstanceMesh);
+
+      window.time4=performance.now()
+      console.log(window.time4-window.time3,"4:maleInstanceMesh = await maleInstanceGroup.init")
   
       // female
       const femaleModel = await this.loadGLB(this.filePath.female.superlowModelPath);
