@@ -131,7 +131,7 @@ class SeatManager {
                 ])
             }
             if(i0==8){
-                console.log("s",s)
+                // console.log("s",s)
                 if(s[0]>-174)
                 for(var j=0;j<numbers2[i0]-4;j++){
                     this.positions.push([
@@ -203,7 +203,7 @@ class SeatManager {
         }
 
 
-        // //从这里开始改的!!!
+        //从这里开始改的!!!
         var p=[84,  7,  182]
         for(var i = 0; i < 6; i++){
             for(var j = 0; j < 6; j++){
@@ -338,114 +338,6 @@ class SeatManager {
             }
         }
 
-
-        var p =[-121.1, 0.71, 173]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 1+i/2.5; j++){
-                this.positions.push([
-                    p[0]-2.2*i+j*1.4,//前后
-                    p[1]+1.5*i,//上下
-                    p[2]+i*0.9+j*1.83,//左右
-        
-                    Math.PI / 2, Math.PI / 2, 3*Math.PI / 2,
-                    Math.PI / 2, 0, 3 * Math.PI / 2
-                ])
-            }
-        }
-        var p =[-117.5, 0.71, 174]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 2+i/3; j++){
-                this.positions.push([
-                    p[0]-i*0.75-j*1.83,//左右
-                    p[1]+1.5*i,//上下
-                    p[2]+2.28*i-j*1.1,//前后
-        
-                    0,Math.PI,0,
-                    Math.PI/2,0,Math.PI
-                ])
-            }
-        }
-
-        var p =[114, 0.71, 175]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 2+i/2.5; j++){
-                this.positions.push([
-                    p[0]+i*0.75+j*1.83,//左右
-                    p[1]+1.5*i,//上下
-                    p[2]+2.28*i-j*1.1,//前后
-        
-                    0,Math.PI,0,
-                    Math.PI/2,0,Math.PI
-                ])
-            }
-        }
-        var p =[118, 0.71, 173]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 1+i/2.5; j++){
-                this.positions.push([
-                    p[0]+2.2*i-j*1.4,//前后
-                    p[1]+1.5*i,//上下
-                    p[2]+i*0.9+j*1.83,//左右
-                    
-                    Math.PI / 2, -Math.PI / 2,  Math.PI / 2,
-                    Math.PI / 2, 0, -3 * Math.PI / 2
-                ])
-            }
-        }
-
-        var p =[116, 0.71, -175]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 1+i/2.5; j++){
-                this.positions.push([
-                    p[0]+i*0.75+j*1.83,//左右
-                    p[1]+1.5*i,//上下
-                    p[2]-2.28*i+j*1.1,//前后
-        
-                    0,0,0,
-                    Math.PI / 2,0,0
-                ])
-            }
-        }
-        var p =[118, 0.71, -173]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 1+i/2.5; j++){
-                this.positions.push([
-                    p[0]+2.2*i-j*1.4,//前后
-                    p[1]+1.5*i,//上下
-                    p[2]-i*0.9-j*1.83,//左右
-                    
-                    Math.PI / 2, -Math.PI / 2,  Math.PI / 2,
-                    Math.PI / 2, 0, -3 * Math.PI / 2
-                ])
-            }
-        }
-
-        var p =[-118, 0.71, -175]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 1+i/2.5; j++){
-                this.positions.push([
-                    p[0]-i*0.75-j*1.83,//左右
-                    p[1]+1.5*i,//上下
-                    p[2]-2.28*i+j*1.1,//前后
-        
-                    0,0,0,
-                    Math.PI / 2,0,0
-                ])
-            }
-        }
-        var p =[-120, 0.71, -173]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 1+i/2.5; j++){
-                this.positions.push([
-                    p[0]-2.2*i+j*1.4,//前后
-                    p[1]+1.5*i,//上下
-                    p[2]-i*0.9-j*1.83,//左右
-                    
-                    Math.PI / 2, -Math.PI / 2,  Math.PI / 2,
-                    Math.PI / 2, 0, -3 * Math.PI / 2
-                ])
-            }
-        }
 
         console.log("总人数：",this.positions.length)
 

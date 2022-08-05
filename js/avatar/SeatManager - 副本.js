@@ -108,8 +108,7 @@ class SeatManager {
             var test_add=0
             if(i0===8){
                 if(i>21)test_add=1
-            } 
-            else if(i0===6){
+            } else if(i0===6){
                 if(i<20)test_add=11
                 else if(20<=i&&i<=21)test_add=10
             } else if(i0===2){
@@ -131,7 +130,6 @@ class SeatManager {
                 ])
             }
             if(i0==8){
-                console.log("s",s)
                 if(s[0]>-174)
                 for(var j=0;j<numbers2[i0]-4;j++){
                     this.positions.push([
@@ -146,7 +144,8 @@ class SeatManager {
             }
         }
 
-           
+
+
         //alert(this.positions.length)
         // this.positions=[]
         // 开始设置长凳的位置
@@ -198,251 +197,6 @@ class SeatManager {
                     p[2]-1+i*2.4,//+3.,//前后
                     0,Math.PI,0,
                     Math.PI/2,0,Math.PI
-                ])
-            }
-        }
-
-
-        // //从这里开始改的!!!
-        var p=[84,  7,  182]
-        for(var i = 0; i < 6; i++){
-            for(var j = 0; j < 6; j++){
-                this.positions.push([
-                    p[0]-j*1.81+16,
-                    p[1]-6.5+i*1.4,//-11.5,//上下
-                    p[2]-3.5+i*2.4+j*0.4,//+3.,//前后
-                    0,Math.PI,0,
-                    Math.PI/2,0,Math.PI
-                ])
-            }
-        }
-        for(var i = 0; i < 6; i++){
-            for(var j = 0; j < 6; j++){
-                this.positions.push([
-                    p[0]-j*1.81-44.5*3-44,
-                    p[1]-6.5+i*1.4,//-11.5,//上下
-                    p[2]-1+i*2.4-j*0.4,//+3.,//前后
-                    0,Math.PI,0,
-                    Math.PI/2,0,Math.PI
-                ])
-            }
-        }
-
-        var p =[-125.1, 0.71, -163.8]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 3 + i/3; j++){
-                this.positions.push([
-                    p[0]-2.35*i+j*0.5,//前后
-                    p[1]+1.5*i,//上下
-                    p[2]-i*0.3-j*1.83,//左右
-        
-                    Math.PI / 2, Math.PI / 2, 3 * Math.PI / 2,
-                    Math.PI / 2, 0, 3 * Math.PI / 2
-                ])
-            }
-        }
-
-        var p =[122.1, 0.71, -163.8]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 3 + i/3; j++){
-                this.positions.push([
-                    p[0]+2.35*i-j*0.5,//前后
-                    p[1]+1.5*i,//上下
-                    p[2]-i*0.3-j*1.83,//左右
-        
-                    Math.PI / 2, -Math.PI / 2,  Math.PI / 2,
-                    Math.PI / 2, 0, -3 * Math.PI / 2
-                ])
-            }
-        }
-        var p =[122.1, 0.71, -161.97]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 7 + i/11; j++){
-                this.positions.push([
-                    p[0]+2.4*i,//前后
-                    p[1]+1.5*i,//上下
-                    p[2]+j*1.83,//左右
-        
-                    Math.PI / 2, -Math.PI / 2,  Math.PI / 2,
-                    Math.PI / 2, 0, -3 * Math.PI / 2
-                ])
-            }
-        }
-
-        // var p =[122.1, 0.71, 163.8]
-        // for(var i = 0; i < 22; i++){
-        //     for(var j = 0; j < 3 + i/3; j++){
-        //         this.positions.push([
-        //             p[0]+2.35*i-j*0.5,//前后
-        //             p[1]+1.5*i,//上下
-        //             p[2]+i*0.27+j*1.83,//左右
-        
-        //             Math.PI / 2, -Math.PI / 2,  Math.PI / 2,
-        //             Math.PI / 2, 0, -3 * Math.PI / 2
-        //         ])
-        //     }
-        // }
-
-
-        var p =[-125.1, 0.71, 163.8]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 3 + i/3; j++){
-                this.positions.push([
-                    p[0]-2.35*i+j*0.5,//前后
-                    p[1]+1.5*i,//上下
-                    p[2]+i*0.27+j*1.83,//左右
-        
-                    Math.PI / 2, Math.PI / 2, 3 * Math.PI / 2,
-                    Math.PI / 2, 0, 3 * Math.PI / 2
-                ])
-            }
-        }
-        var p =[-125.1, 0.71, 151]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 7+i/11; j++){
-                this.positions.push([
-                    p[0]-2.4*i,//前后
-                    p[1]+1.5*i,//上下
-                    p[2]+j*1.83,//左右
-        
-                    Math.PI / 2, Math.PI / 2, 3 * Math.PI / 2,
-                    Math.PI / 2, 0, 3 * Math.PI / 2
-                ])
-            }
-        }
-
-        var p =[-107, 0.71, -177.5]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 4 + i/5; j++){
-                this.positions.push([
-                    p[0]-i*0.3-j*1.83,//左右
-                    p[1]+1.5*i,//上下
-                    p[2]-2.35*i+j*0.5,//前后
-        
-                    0,0,0,
-                    Math.PI / 2,0,0
-                ])
-            }
-        }
-        var p =[104, 0.71, -177.5]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 4 + i/5; j++){
-                this.positions.push([
-                    p[0]+i*0.3+j*1.83,//左右
-                    p[1]+1.5*i,//上下
-                    p[2]-2.35*i+j*0.5,//前后
-        
-                    0,0,0,
-                    Math.PI / 2,0,0
-                ])
-            }
-        }
-
-
-        var p =[-121.1, 0.71, 173]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 1+i/2.5; j++){
-                this.positions.push([
-                    p[0]-2.2*i+j*1.4,//前后
-                    p[1]+1.5*i,//上下
-                    p[2]+i*0.9+j*1.83,//左右
-        
-                    Math.PI / 2, Math.PI / 2, 3*Math.PI / 2,
-                    Math.PI / 2, 0, 3 * Math.PI / 2
-                ])
-            }
-        }
-        var p =[-117.5, 0.71, 174]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 2+i/3; j++){
-                this.positions.push([
-                    p[0]-i*0.75-j*1.83,//左右
-                    p[1]+1.5*i,//上下
-                    p[2]+2.28*i-j*1.1,//前后
-        
-                    0,Math.PI,0,
-                    Math.PI/2,0,Math.PI
-                ])
-            }
-        }
-
-        var p =[114, 0.71, 175]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 2+i/2.5; j++){
-                this.positions.push([
-                    p[0]+i*0.75+j*1.83,//左右
-                    p[1]+1.5*i,//上下
-                    p[2]+2.28*i-j*1.1,//前后
-        
-                    0,Math.PI,0,
-                    Math.PI/2,0,Math.PI
-                ])
-            }
-        }
-        var p =[118, 0.71, 173]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 1+i/2.5; j++){
-                this.positions.push([
-                    p[0]+2.2*i-j*1.4,//前后
-                    p[1]+1.5*i,//上下
-                    p[2]+i*0.9+j*1.83,//左右
-                    
-                    Math.PI / 2, -Math.PI / 2,  Math.PI / 2,
-                    Math.PI / 2, 0, -3 * Math.PI / 2
-                ])
-            }
-        }
-
-        var p =[116, 0.71, -175]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 1+i/2.5; j++){
-                this.positions.push([
-                    p[0]+i*0.75+j*1.83,//左右
-                    p[1]+1.5*i,//上下
-                    p[2]-2.28*i+j*1.1,//前后
-        
-                    0,0,0,
-                    Math.PI / 2,0,0
-                ])
-            }
-        }
-        var p =[118, 0.71, -173]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 1+i/2.5; j++){
-                this.positions.push([
-                    p[0]+2.2*i-j*1.4,//前后
-                    p[1]+1.5*i,//上下
-                    p[2]-i*0.9-j*1.83,//左右
-                    
-                    Math.PI / 2, -Math.PI / 2,  Math.PI / 2,
-                    Math.PI / 2, 0, -3 * Math.PI / 2
-                ])
-            }
-        }
-
-        var p =[-118, 0.71, -175]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 1+i/2.5; j++){
-                this.positions.push([
-                    p[0]-i*0.75-j*1.83,//左右
-                    p[1]+1.5*i,//上下
-                    p[2]-2.28*i+j*1.1,//前后
-        
-                    0,0,0,
-                    Math.PI / 2,0,0
-                ])
-            }
-        }
-        var p =[-120, 0.71, -173]
-        for(var i = 0; i < 22; i++){
-            for(var j = 0; j < 1+i/2.5; j++){
-                this.positions.push([
-                    p[0]-2.2*i+j*1.4,//前后
-                    p[1]+1.5*i,//上下
-                    p[2]-i*0.9-j*1.83,//左右
-                    
-                    Math.PI / 2, -Math.PI / 2,  Math.PI / 2,
-                    Math.PI / 2, 0, -3 * Math.PI / 2
                 ])
             }
         }

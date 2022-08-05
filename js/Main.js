@@ -53,7 +53,16 @@ class Main {
             // .load( ["home1_right.jpg","home1_left.jpg",  "home1_top.jpg", "home1_bottom.jpg", "home1_front.jpg", "home1_back.jpg"] );
             // .load( ["home1_left.jpg", "home1_right.jpg", "home1_top.jpg", "home1_bottom.jpg", "home1_front.jpg", "home1_back.jpg"] );
         },3000)
-        
+
+        new Blur(()=>{
+            var myVideoManager = new VideoManager();
+            myVideoManager.init();
+            myVideoManager.setPlay()
+            scope.createUI()
+            scope.preview()
+            
+        })
+
 
 
         // 加载顺序
@@ -80,18 +89,6 @@ class Main {
         this.avatarManager.createLowAvatar(); // 人物低模
         this.avatarManager.createMediumAvatar(); // 人物中模
         this.avatarManager.createHighAvatar(); // 人物高模
-        
-        
-        new Blur(()=>{
-            var myVideoManager = new VideoManager();
-            myVideoManager.init();
-            myVideoManager.setPlay()
-            scope.createUI()
-            scope.preview()
-            
-        })
-
-
 
 
     }

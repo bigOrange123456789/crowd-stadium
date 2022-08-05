@@ -455,13 +455,18 @@ class AvatarManager {
     }
   
     updateLOD() {//每一帧执行一次
-      if (this.lodFinished[3]==false||this.lodFinished[2]==false) return;//记录数据的加载情况
+      if (this.lodFinished[3]==false) return;//记录数据的加载情况
   
-      const minFinishedLOD = this.lodFinished[1]
-        ? this.lodFinished[0]
-          ? 0
-          : 1
-        : 2;
+      // const minFinishedLOD = 
+      //   this.lodFinished[0]?0:
+      //   this.lodFinished[1]?1:
+      //   this.lodFinished[2]?2:3;
+
+      const minFinishedLOD = 
+        this.lodFinished[2]&&this.lodFinished[1]&&this.lodFinished[0]?0:
+        this.lodFinished[2]&&this.lodFinished[1]?1:
+        this.lodFinished[2]?2:3;
+
       const lod = this.lodController.update();
       let lodCount = {//三级LOD的个数
         male: [0, 0, 0,0],
@@ -550,7 +555,7 @@ class AvatarManager {
         ]);
         instanceGroup.setScale(param.index, [
           1.8*param.scale[0],
-          2.8*param.scale[1],
+          2.8*param.scale[1]+1.5,
           1.8*param.scale[2]
         ]);
       }else{
