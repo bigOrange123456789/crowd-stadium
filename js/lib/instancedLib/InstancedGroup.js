@@ -96,7 +96,7 @@ class InstancedGroup {
         var time4=performance.now()
         test_print.push([time4-time3,"-4-:end"])
         test_print.push([time4-time0,"all"])
-        console.log("InstancedGroup.init",test_print)
+        //console.log("InstancedGroup.init",test_print)
 
         return mesh;
 
@@ -156,7 +156,7 @@ class InstancedGroup {
         var time5=performance.now()
         test_print.push([time5-time4,"-5-"])
         test_print.push([time5-time0,"-all-"])
-        console.log("InstancedGroup.initMaterial",test_print)
+        //console.log("InstancedGroup.initMaterial",test_print)
 
         return material;
 

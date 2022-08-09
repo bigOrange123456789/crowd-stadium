@@ -35,7 +35,6 @@ class SeatManager {
 
             //开始修补边角
             if(i0==8){//i0是区域编号
-                // console.log(s[0]-3)
                 if(s[0]-3<170)
                 for(var j=0;j<6;j++){//列数
                     this.positions.push([
@@ -131,7 +130,6 @@ class SeatManager {
                 ])
             }
             if(i0==8){
-                console.log("s",s)
                 if(s[0]>-174)
                 for(var j=0;j<numbers2[i0]-4;j++){
                     this.positions.push([

@@ -761,6 +761,54 @@ class AvatarManager {
       const maleInstanceMesh = await maleInstanceGroup.init();
       this.manager.instanceGroup.male[0] = maleInstanceGroup;
       this.avatar.add(maleInstanceMesh);
+
+      ///开始加载移动的人
+      var scope=this
+      //new THREE.GLTFLoader().load("../crowd2/myModel/male_run.glb",function (glb) {
+        // var glb=await this.loadGLB("../crowd2/myModel/male_run.glb");//await this.loadGLB(this.filePath.male.highModelPath);
+			  // var mesh2;
+        // glb.scene.traverse(function (node) {
+				//   if(node instanceof THREE.SkinnedMesh)
+				// 	  mesh2=node;
+			  // })
+  
+        // const maleInstanceGroup2 = new InstancedGroup(
+        //   207,
+        //   mesh2,
+        //   "assets/crowd/animation/male_run.json",
+        //   false,
+        //   scope.filePath.male.highTexturePath,
+        //   scope.filePath.male.lightMapPath,
+        //   scope.manager.config.male.textureCount,
+        //   scope.camera,
+        //   scope.clock
+        // );
+        // maleInstanceGroup2.body = scope.manager.config.male.body;
+        // maleInstanceGroup2.vertURL = scope.filePath.shader.highVertexShader;
+        // maleInstanceGroup2.fragURL = scope.filePath.shader.highFragmentShader;
+        // await maleInstanceGroup2.init();
+        // maleInstanceGroup2.mesh.count=207;
+
+        // for (var index = 0; index < maleInstanceGroup2.instanceCount; index++){// 人群中每个化身参数的初始化
+        //   var x=index%16;
+        //   var y=Math.floor(index/16);
+        //   maleInstanceGroup2.setPosition(index, [10*(x-8),0,20*(y-5)]);
+        //   maleInstanceGroup2.setScale(index, [2,
+        //     1.5+Math.random()
+        //     ,2]);
+        //   maleInstanceGroup2.setTexture(index, [
+        //     Math.floor(Math.random()*32),//裤子
+        //     Math.floor(Math.random()*32),//上衣
+        //     Math.floor(Math.random()*32),
+        //     Math.floor(Math.random()*32)])
+        //     // maleInstanceGroup2.faceShapeSet(index,0)
+        //   maleInstanceGroup2.setSpeed(index, (0.35 + Math.random() * 0.3)*4);
+        // }
+  
+        // window.scene.add(maleInstanceGroup2.mesh);//this.avatar.add(maleInstanceMesh);
+        // console.log(mesh2,"mesh2",maleInstanceGroup2)
+      //})
+      ///完成加载移动的人
       
 
       // female
