@@ -569,6 +569,20 @@ class AvatarManager {
     async createSuperLowAvatar() {
       // male
       const maleModel = await this.loadGLB(this.filePath.male.superlowModelPath);
+      // console.log("maleModel:",maleModel)//scene.children[0].geometry.attributes.position.array
+      // console.log("maleModel.position:",maleModel.scene.children[0].geometry.attributes.position.array)
+      // function download(data){
+      //   var str=JSON.stringify(
+      //     data//scope.viewPointData[b.myId] 
+      //     , null, "\t")
+      //   var link = document.createElement('a');
+      //   link.style.display = 'none';
+      //   document.body.appendChild(link);
+      //   link.href = URL.createObjectURL(new Blob([str], { type: 'text/plain' }));
+      //   link.download ="test.json";
+      //   link.click();
+      // }
+      // download(maleModel.scene.children[0].geometry.attributes.position.array)
       
       window.time3=performance.now()
       console.log(window.time3-window.time2,"3:maleModel = await this.loadGLB")

@@ -11,11 +11,11 @@ vec4 computeTextureColor() { // 贴图颜色
     if (u > 0.5) u = 1. - u; // 对称
     u = u * 2.;
     float textureIndex = outTextureIndex[0];
-    float col=(
-       textureIndex/textureCount[1] - floor(textureIndex/textureCount[1]) 
-    ) *textureCount[1];//float(int(textureIndex) % int(textureCount[1]));
+    float col=textureIndex- floor(textureIndex/textureCount[1]) *textureCount[1];//float(int(textureIndex) % int(textureCount[1]));
+    col=round(col);
+    if(col==textureCount[1])col=0.;
     float row = (textureIndex - col) / textureCount[1];
-    row=round(row);
+    // row=round(row);
     u = (u * 0.95 + col) / textureCount[1];
     v = (v + row) / textureCount[0];
     vec4 color = texture( textureData, vec2(u, v) );
