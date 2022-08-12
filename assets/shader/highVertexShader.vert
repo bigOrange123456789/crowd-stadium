@@ -20,6 +20,7 @@ out vec2 outUV;
 out vec3 outNormal;
 out vec4 outTextureIndex;
 out vec3 outPosition;
+out vec3 myPosition;//化身的位置
 
 float getBoneScale(float bone) { // 身体形变
 
@@ -102,6 +103,7 @@ vec3 frameInterpolation(vec3 position) { // 点坐标插值, 考虑优化:变换
 }
 
 void main() {
+    myPosition=vec3(mcol3.x,mcol3.y,mcol3.z);
 
     outUV = inUV;
     outTextureIndex = textureIndex;

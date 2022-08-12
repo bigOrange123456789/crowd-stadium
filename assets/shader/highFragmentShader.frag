@@ -13,6 +13,7 @@ in vec4 outTextureIndex; // 0:身体绝大部分 1:头部与手部 2:裤子 3:�
 in vec2 outUV;
 in vec3 outNormal;
 in vec3 outPosition;
+in vec3 myPosition;
 
 out vec4 fragColor;
 
@@ -124,11 +125,11 @@ vec3 blinnPhong( // 光照模型
 }
 
 void main() {
-
     PointLight light = PointLight(
-        vec3(0., 40.97, 0.), // 点光源位置
+        //vec3(0., 40., 0.),
+        vec3(myPosition.x+18., myPosition.y+140., myPosition.z), // 点光源位置
         vec3(1., 1., 1.), // 漫反射颜色
-        vec3(1., 1., 1.) // 高光颜色
+        vec3(1.1, 1.1, 1.1) // 高光颜色
     );
 
     Material material = Material(
