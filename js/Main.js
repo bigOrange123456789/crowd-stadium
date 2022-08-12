@@ -94,52 +94,6 @@ class Main {
 
 
 
-        //开始加载人群
-	    // new THREE.GLTFLoader().load("../crowd2/myModel/male_run.glb",function (glb) {
-		// 	var mesh2;
-		// 	glb.scene.traverse(function (node) {
-		// 		if(node instanceof THREE.SkinnedMesh)
-		// 			mesh2=node;
-		// 	})
-            
-		// 	var peoples2 = new InstancedGroup3(
-		// 			207,//908
-		// 			[mesh2],//这些mesh的网格应该一致
-		// 			true
-		// 	);
-		// 	peoples2.neckPosition=1.57;
-		// 	peoples2.init(["../crowd2/img/texture/m/m0.jpg","../crowd2/img/texture/m/m1.jpg","../crowd2/img/texture/m/m2.jpg"],
-		// 			32,
-		// 			[   '#a9a541','#726050','#836557','#5a4c40','#716365',
-		// 				'#483530','#695148','#917a6e','#786861','#4d453f','#553531','#8b7a73',
-		// 				'#5d5146','#6c5b58','#656261','#646058','#5c5653','#5f5042','#6b6665',
-		// 				'#6e5b4c','#82756d','#8f7462','#8e6b5d','#5a4c40','#6c6f72','#8e7f78',
-		// 				'#514d50','#423e3f','#644e40','#746255','#524946','#56453d','#60564d'],
-		// 			false,
-		// 			()=>{console.log("PM finish!")},
-		// 			window.c
-		// 	);
-		// 	//人群中每个化身参数的初始化
-		// 	for (var index = 0; index < peoples2.instanceCount; index++){
-		// 		var x=index%16;
-		// 		var y=Math.floor(index/16);
-		// 		peoples2.positionSet(index, [10*(x-8),0,20*(y-5)]);
-		// 		peoples2.scaleSet(index, [2,
-		// 			1.5+Math.random()
-		// 			,2]);
-		// 		peoples2.textureSet(index, [
-		// 			Math.floor(Math.random()*32),//裤子
-		// 			Math.floor(Math.random()*32),//上衣
-		// 			Math.floor(Math.random()*32)])//头部
-		// 		peoples2.faceShapeSet(index,0)
-		// 		peoples2.speedSet(index, (0.35 + Math.random() * 0.3)*4);
-		// 	}
-		// 	//添加到场景中
-		// 	window.scene.add(peoples2.obj);
-		// })
-	    //完成加载人群
-
-
     }
     createUI(){
       //开始设置UI界面

@@ -794,7 +794,7 @@ class AvatarManager {
 
       ///开始加载移动的人
       var scope=this
-      var glb=await this.loadGLB("../crowd2/myModel/male_run.glb");//await this.loadGLB(this.filePath.male.highModelPath);
+      var glb=await this.loadGLB("assets/crowd/model/male_run.glb");//await this.loadGLB(this.filePath.male.highModelPath);
 			var mesh2;
       glb.scene.traverse(function (node) {
 				  if(node instanceof THREE.SkinnedMesh)
